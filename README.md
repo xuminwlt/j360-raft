@@ -18,13 +18,13 @@ j360-raft Simple Raft For Java
 
 ## 对象列表
 
-配置Options
-存储日志Log
-快照Snapshot
-状态机StateMachine
-消息结构体:Peer
-节点NodeServer地址
-节点Node主体
+- 配置Options
+- 存储日志Log
+- 快照Snapshot
+- 状态机StateMachine
+- 消息结构体:Peer
+- 节点NodeServer地址
+- 节点Node主体
 
 
 ## Node节点功能执行流程
@@ -38,6 +38,6 @@ j360-raft Simple Raft For Java
 
 # 分布式一致性系统搭建
 
-## KV系统
-## 分布式锁系统
-## 注册中心
+- KV系统
+- 分布式锁系统
+- 注册中心
