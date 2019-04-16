@@ -53,14 +53,34 @@ RAFT中将时间划分到Term，用于选举，标示某个Leader下的Normal Ca
 
 注意上面的Log新旧的比较，是基于lastLogTerm和lastLogIndex进行比较，而不是基于currentTerm和lastLogIndex进行比较。currentTerm只是用于忽略老的Term的vote请求，或者提升自己的currentTerm，并不参与Log新旧的决策。考虑一个非对称网络划分的节点，在一段时间内会不断的进行vote，并增加currentTerm，这样会导致网络恢复之后，Leader会接收到AppendEntriesResponse中的term比currentTerm大，Leader就会重置currentTerm并进行StepDown，这样Leader就对齐自己的Term到划分节点的Term，重新开始选主，最终会在上一次多数集合中选举出一个term>=划分节点Term的Leader。
 
+## 状态变化
+
+1. 每个Node 随机一个timeout时间, 先到着从Follower变成candidate发起投票, 发起一个新的term+1, 并投票给自己
+2. 发起投票请求: 如果其他节点没有投过票, 则给发起者投票
+3. 发起者进入选择超时时间, 开始计算得到的票数
+4. 在超时时间内得到多数票数, 进入leader状态
+
+5. Follower没有收到任何Leader心跳, 心跳超时, Follower 进入candidate状态
+6. 重复1-4步骤
+7. 如果两个Follower变成candidate同时发起投票, 并且不满足Leader条件, 则进入下一轮投票
+
+
+## 脑裂问题
+
+1. 存在多个不互通分区造成选举后的脑裂问题, 产生多个存活Leader
+2. 低Term节点Step down
+3. 低Term节点rollback回滚等待新的Leader log同步
+
 
 # 分布式一致性系统搭建
 
+- 高可用计数器项目
 - KV系统
 - 分布式锁系统
 - 注册中心
 
+动画演示:
+http://thesecretlivesofdata.com/raft/
 
 参考:
-
 https://raft.github.io/slides/raftuserstudy2013.pdf
