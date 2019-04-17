@@ -74,7 +74,7 @@ RAFT中将时间划分到Term，用于选举，标示某个Leader下的Normal Ca
 
 # 分布式一致性系统搭建
 
-- 高可用计数器项目
+- 高可用计数器项目 code from jraft-test
 - KV系统
 - 分布式锁系统
 - 注册中心
